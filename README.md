@@ -1,2 +1,3 @@
-# x-clone
-X Social Media Clone
+# X Social Media Clone
+
+### MERN stack x 
