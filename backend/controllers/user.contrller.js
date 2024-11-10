@@ -90,5 +90,7 @@ export const updateUserProfile = async (req, res) => {
   try {
     const user = await User.findById(userId);
     if (!user) return res.status(400).json({ message: "user not found" });
-  } catch (error) {}
+  
+    if((!newPassword))
+} catch (error) {}
 };
