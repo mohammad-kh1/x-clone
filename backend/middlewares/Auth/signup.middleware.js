@@ -42,5 +42,5 @@ const handleValidationErrors = (req, res, next) => {
   next();
 };
 
-const validateUserInput = [...userValidationRules, handleValidationErrors];
-export default validateUserInput;
+const validateSignInput = [...userValidationRules, handleValidationErrors];
+export default validateSignInput;

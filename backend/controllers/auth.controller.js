@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import { generateJwtTokenAndSaveToCookie } from "../utils/generateJWT.js";
+
 export const signup = async (req, res) => {
   try {
     const { fullName, email, password, confirmPassword, username } = req.body;
@@ -60,7 +61,38 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  return 1;
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "invalid email or password" });
+    }
+    const isMatch = await bcrypt.compare(password, user?.password || "");
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ success: false, message: " invalid email or password" });
+    }
+    generateJwtTokenAndSaveToCookie(user._id, res);
+    return res.status(200).json({
+      success: true,
+      message: "login sucessfull",
+      user: {
+        id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+        username: user.username,
+        followers: user.followers,
+        following: user.following,
+        profileImg: user.profileImg,
+        coverImg: user.coverImg,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+    });
+  } catch (error) {}
 };
 
 export const logout = async (req, res) => {
