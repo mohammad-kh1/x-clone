@@ -79,3 +79,16 @@ export const getSuggestedUsers = async (req, res) => {
     res.status(500).json({ error: "error in server" });
   }
 };
+
+export const updateUserProfile = async (req, res) => {
+  const { fullName, email, username, currnetPassword, newPassword, bio, link } =
+    req.body;
+  let { profilePic, coverImg } = req.body;
+
+  const userId = req.user._id;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(400).json({ message: "user not found" });
+  } catch (error) {}
+};
