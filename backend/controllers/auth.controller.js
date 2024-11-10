@@ -96,5 +96,28 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  return 1;
+  res.clearCookie("token");
+  return res.status(200).json({});
+};
+
+export const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    return res.status(200).json({
+      user: {
+        id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+        username: user.username,
+        followers: user.followers,
+        following: user.following,
+        profileImg: user.profileImg,
+        coverImg: user.coverImg,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
