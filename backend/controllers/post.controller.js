@@ -56,3 +56,26 @@ export const deletePost = async (req, res) => {
     console.log(error);
   }
 };
+
+export const commentOnPost = async (req, res) => {
+  try {
+    const { text } = req.body;
+    const postId = req.params.id;
+    const userId = req.user._id;
+
+    if (!text) {
+      return res.status(400).json({ error: "text is required" });
+    }
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "post not found" });
+    }
+    const comment = { user: userId, text };
+    post.comments.push(comment);
+    await post.save();
+    return res.status(200).json(post);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ erorr: "server error" });
+  }
+};
