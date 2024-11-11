@@ -5,6 +5,7 @@ import {
   createPost,
   deletePost,
   getAllPosts,
+  getFollowingPosts,
   getLikedPosts,
   likeUnlikePost,
 } from "../controllers/post.controller.js";
@@ -12,6 +13,7 @@ import {
 const Router = express.Router();
 
 Router.get("/all", authRoute, getAllPosts);
+Router.get("/following", authRoute, getFollowingPosts);
 Router.get("/likes/:id", authRoute, getLikedPosts);
 Router.post("/create", authRoute, createPost);
 Router.delete("/delete/:id", authRoute, deletePost);
