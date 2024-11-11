@@ -4,6 +4,7 @@ import {
   commentOnPost,
   createPost,
   deletePost,
+  likeUnlikePost,
 } from "../controllers/post.controller.js";
 
 const Router = express.Router();
@@ -11,6 +12,6 @@ const Router = express.Router();
 Router.post("/create", authRoute, createPost);
 Router.delete("/delete/:id", authRoute, deletePost);
 Router.post("/comment/:id", authRoute, commentOnPost);
-// Router.post("/like/:id", authRoute, likeUnlikePost);
+Router.get("/like/:id", authRoute, likeUnlikePost);
 
 export default Router;

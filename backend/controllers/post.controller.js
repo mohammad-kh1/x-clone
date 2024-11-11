@@ -2,6 +2,7 @@ import { v2 as cloudinray } from "cloudinary";
 
 import User from "../models/user.model.js";
 import Post from "../models/post.model.js";
+import notification from "../models/notifications.model.js";
 
 export const createPost = async (req, res) => {
   try {
@@ -77,5 +78,36 @@ export const commentOnPost = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ erorr: "server error" });
+  }
+};
+
+export const likeUnlikePost = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { id: postId } = req.params;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(400).json({ message: "post not found" });
+    }
+    const userLikedPost = post.likes.includes(userId);
+    if (userLikedPost) {
+      // unlike the post
+      await Post.updateOne({ _id: postId }, { $pull: { likes: userId } });
+      res.status(200).json({ message: "post unliked successfuly" });
+    } else {
+      // like post
+      post.likes.push(userId);
+      await post.save();
+      const Notification = new notification({
+        from: userId,
+        to: post.user,
+        type: "LIKE",
+      });
+      await Notification.save();
+      res.status(200).json({ message: "post liked successfuly" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "server error" });
   }
 };
