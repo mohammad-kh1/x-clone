@@ -7,6 +7,8 @@ import { v2 as cloudinary } from "cloudinary";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import postRoutes from "./routes/post.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
+
 import { dbConnect } from "./db/db.init.js";
 
 dotenv.config();
@@ -31,6 +33,8 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/notifications", notificationRoutes);
+
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
