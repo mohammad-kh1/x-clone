@@ -38,7 +38,7 @@ const HomePage = () => {
 
         {/* POSTS */}
         {POSTS.map((POST) => (
-          <Posts post={POST} />
+          <Posts key={POST._id} post={POST} />
         ))}
       </div>
     </>

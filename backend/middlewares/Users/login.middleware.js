@@ -1,7 +1,7 @@
 import { body, validationResult } from "express-validator";
 
 const userValidationRules = [
-  body("email").notEmpty().isEmail().withMessage("please enter valid email"),
+  body("username").notEmpty().withMessage("please enter valid username"),
   body("password")
     .notEmpty()
     .trim()

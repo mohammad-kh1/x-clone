@@ -62,18 +62,18 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "invalid email or password" });
+        .json({ success: false, message: "invalid username or password" });
     }
     const isMatch = await bcrypt.compare(password, user?.password || "");
     if (!isMatch) {
       return res
         .status(400)
-        .json({ success: false, message: " invalid email or password" });
+        .json({ success: false, message: " invalid username or password" });
     }
     generateJwtTokenAndSaveToCookie(user._id, res);
     return res.status(200).json({
@@ -104,6 +104,7 @@ export const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select("-password");
     return res.status(200).json({
+      success: true,
       user: {
         id: user._id,
         email: user.email,

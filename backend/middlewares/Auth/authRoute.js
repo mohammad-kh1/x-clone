@@ -5,11 +5,15 @@ export const authRoute = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) {
-      return res.status(403).json({ message: "Unauthenticated" });
+      return res
+        .status(403)
+        .json({ sucess: false, message: "Unauthenticated" });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (!decoded) {
-      return res.status(403).json({ message: "Unauthenticated" });
+      return res
+        .status(403)
+        .json({ sucess: false, message: "Unauthenticated" });
     }
 
     const user = await User.findById(decoded.userId).select("-password");
