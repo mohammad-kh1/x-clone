@@ -20,6 +20,6 @@ Router.get("/likes/:id", authRoute, getLikedPosts);
 Router.post("/create", authRoute, createPost);
 Router.delete("/delete/:id", authRoute, deletePost);
 Router.post("/comment/:id", authRoute, commentOnPost);
-Router.get("/like/:id", authRoute, likeUnlikePost);
+Router.post("/like/:id", authRoute, likeUnlikePost);
 
 export default Router;

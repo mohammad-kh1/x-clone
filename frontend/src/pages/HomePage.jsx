@@ -37,9 +37,7 @@ const HomePage = () => {
         <CreatePost />
 
         {/* POSTS */}
-        {POSTS.map((POST) => (
-          <Posts key={POST._id} post={POST} />
-        ))}
+        <Posts feedType={feedType} />
       </div>
     </>
   );
