@@ -16,12 +16,9 @@ const Post = ({ post }) => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const queryClient = useQueryClient();
   const postOwner = post.user;
-  const isLiked = post.likes.includes(authUser._id);
-
-  const isMyPost = authUser._id === post.user._id;
-
+  const isLiked = post.likes.includes(authUser.user.id);
+  const isMyPost = authUser.user.id === post.user._id;
   const formattedDate = formatPostDate(post.createdAt);
-
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
       try {
@@ -43,7 +40,6 @@ const Post = ({ post }) => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });
-
   const { mutate: likePost, isPending: isLiking } = useMutation({
     mutationFn: async () => {
       try {
@@ -257,13 +253,15 @@ const Post = ({ post }) => {
                   <FaRegHeart className="w-4 h-4 cursor-pointer text-slate-500 group-hover:text-pink-500" />
                 )}
                 {isLiked && !isLiking && (
-                  <FaRegHeart className="w-4 h-4 cursor-pointer text-pink-500 " />
+                  <FaRegHeart className="w-4 h-4 cursor-pointer text-pink-500 group-hover:text-slate-500" />
                 )}
 
                 <span
-                  className={`text-sm  group-hover:text-pink-500 ${
-                    isLiked ? "text-pink-500" : "text-slate-500"
-                  }`}
+                  className={`text-sm  ${
+                    isLiked
+                      ? "group-hover:text-slate-500"
+                      : "group-hover:text-pink-500"
+                  } ${isLiked ? "text-pink-500 " : "text-slate-500"}`}
                 >
                   {post.likes.length}
                 </span>
