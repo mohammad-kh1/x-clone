@@ -24,7 +24,6 @@ const NotificationPage = () => {
     },
   });
 
-  console.log(notifications);
   const { mutate: deleteNotifications } = useMutation({
     mutationFn: async () => {
       try {
