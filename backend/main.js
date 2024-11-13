@@ -23,6 +23,7 @@ morgan.token("id", (req) => {
   return req.id;
 });
 const app = express();
+const __dirname = path.resolve();
 
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -44,7 +45,6 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const PORT = process.env.PORT || 5001;
-const __dirname = path.resolve();
 
 app.listen(PORT, () => {
   console.log(`server run at ${PORT}`);
