@@ -18,7 +18,7 @@ Router.get("/following", authRoute, getFollowingPosts);
 Router.get("/user/:username", authRoute, getUserPosts);
 Router.get("/likes/:id", authRoute, getLikedPosts);
 Router.post("/create", authRoute, createPost);
-Router.delete("/delete/:id", authRoute, deletePost);
+Router.delete("/:id", authRoute, deletePost);
 Router.post("/comment/:id", authRoute, commentOnPost);
 Router.post("/like/:id", authRoute, likeUnlikePost);
 
