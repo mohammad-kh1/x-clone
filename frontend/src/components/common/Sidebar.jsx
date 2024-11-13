@@ -5,7 +5,7 @@ import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -24,12 +24,22 @@ const Sidebar = () => {
       } catch (error) {}
     },
   });
-  const data = {
-    fullName: "John Doe",
-    username: "johndoe",
-    profileImg: "/avatars/boy1.png",
-  };
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["data"],
+    queryFn: async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error("Couldn't find users");
+        }
+        return data.user;
+      } catch (error) {
+        throw new Error("error");
+      }
+    },
+  });
   return (
     <div className="md:flex-[2_2_0] w-18 max-w-52">
       <div className="sticky top-0 left-0 h-screen flex flex-col border-r border-gray-700 w-20 md:w-full">
@@ -68,7 +78,7 @@ const Sidebar = () => {
         </ul>
         {data && (
           <Link
-            to={`/profile/${data.username}`}
+            to={`/profile/${data?.username}`}
             className="mt-auto mb-10 flex gap-2 items-start transition-all duration-300 hover:bg-[#181818] py-2 px-4 rounded-full"
           >
             <div className="avatar hidden md:inline-flex">

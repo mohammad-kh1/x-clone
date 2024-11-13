@@ -26,6 +26,7 @@ const ProfilePage = () => {
   const profileImgRef = useRef(null);
 
   const { username } = useParams();
+
   const { follow, isPending } = useFollow();
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
@@ -52,9 +53,10 @@ const ProfilePage = () => {
 
   const { isUpdatingProfile, updateProfile } = useUpdateUserProfile();
 
-  const isMyProfile = authUser._id === user?._id;
+  const isMyProfile = authUser.user?.id === user?._id;
   const memberSinceDate = formatMemberSinceDate(user?.createdAt);
   const amIFollowing = authUser.user?.following.includes(user?._id);
+
   const handleImgChange = (e, state) => {
     const file = e.target.files[0];
     if (file) {
