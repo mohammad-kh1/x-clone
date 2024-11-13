@@ -5,8 +5,9 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "dev": "nodemon ./backend/main.js",
-    "start": "node ./backend/main.js"
+    "dev": "NODE_ENV=development nodemon backend/main.js",
+    "start": "NODE_ENV=production node backend/main.js",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",
